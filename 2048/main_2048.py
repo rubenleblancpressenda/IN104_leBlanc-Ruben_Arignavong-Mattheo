@@ -1,4 +1,7 @@
 import numpy as np
+import initialisation as init
+import perdu as lost
+import mat_finale as fi
 
 def moove(mat,way):
     if way == 2: #down
@@ -15,12 +18,13 @@ def moove(mat,way):
     return mat,moove
 
 def print_mat(mat):
-	for i in range (4):
-		for j in range (4):	
-			print(mat[i][j], end='')
-			if j == 3:
-				print("\n")
-	return mat
+    for i in range (4):
+        for j in range (4):	
+            print(int(mat[i][j]), end='')
+            print('  ', end='')
+        if j == 3:
+            print("\n")
+    return mat
 
 
 def maj(mat,way):
@@ -58,17 +62,25 @@ def final_mat(mat,way):
 	return mat
 
 if __name__ == "__main__":
-    m=[[0,2,0,4],[4,4,0,4],[4,0,0,2],[0,0,2,2]]
+    #ici on crée une nouvelle grille
+    mat=init.init_2048()
     way=0
     print("Grille de depart : \n")
-    print_mat(m)
-    while way != 6 :
+    print_mat(mat)
+    perdu = 0
+    while way != 6 or perdu ==1 :
         print("___________________________________________________________")
-        print("Que voulez vous faire ? (2: down | 3: right | 4: up | 1: left | 6 : stop)")
+        print("Que voulez vous faire ? (2: down | 3: right | 5: up | 1: left | 6 : stop)")
         way = int(input())
-        if way != 5:
-            m=maj(m,way)
-            print_mat(m)
+        print("___________________________________________________________")
+        if way != 6:
+            #1 maj
+            mat=maj(mat,way)
+            #2/ On met nouvelle case
+            mat = fi.grille_finale(mat)
+            #3/On regarde si on a perdu
+            perdu = lost.perdu(mat)
+            print_mat(mat)
 	
 
 	# initialisation
